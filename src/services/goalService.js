@@ -11,7 +11,7 @@ async function getOneGoal(id){
     return response.data
 }
 
-async function createGoals(body){
+async function createGoal(body){
     const response = await api.post('/goals', body)
     return response.data
 }
@@ -29,4 +29,4 @@ async function deleteGoal(id){
 
 
 
-export{getAllGoals, getOneGoal, createGoals, updateGoal, deleteGoal}
+export{getAllGoals, getOneGoal, createGoal, updateGoal, deleteGoal}
