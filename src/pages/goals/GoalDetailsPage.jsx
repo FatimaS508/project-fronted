@@ -31,6 +31,36 @@ function GoalDetailsPage() {
         LoadGoal()
     },[])
 
+    const progress = goal ? Math.min((goal.tracking.currentAchievement / goal.tracking.targetAchievement) * 100,
+        100) : 0 //otherwhise 0% 
+
+    let status = "";
+    let completed = false;
+
+    if (goal?.tracking) {
+        if (goal.tracking.currentAchievement === 0) {
+            status = "Not Started";
+        } else if (goal.tracking.currentAchievement >= goal.tracking.targetAchievement) {
+            status = "Completed";
+        } else {
+            status = "In Progress";
+        }
+
+        completed = goal.tracking.currentAchievement >= goal.tracking.targetAchievement;
+    }
+
+
+    useEffect(() => {
+  if (!goal?.tracking) return;
+
+
+  updateGoal(id, {
+    status,progress,    
+    tracking: {
+      ...goal.tracking, completed }
+  });
+}, [goal?.tracking?.currentAchievement]);
+
 
     async function handleDelete(){
         try{
@@ -59,17 +89,15 @@ function GoalDetailsPage() {
             
            tracking:{...goal.tracking, currentAchievement: (goal.tracking.currentAchievement || 0) - 1}
             
-        })
-
-        
-        }
+        })}
     
-
     async function handleComplete(){
         console.log('complete checked')
+        const changedGoal= await updateGoal(id, )
     }
 
       if (!goal) return <p>Loading...</p>
+
 
   return (
     <div>
@@ -77,10 +105,8 @@ function GoalDetailsPage() {
       <button onClick={() => navigate('/goals')}>Back to all goals</button>
       <p>Goal name: {goal.title}</p>
       <p>Description: {goal.description}</p>
-      <p>Status: {goal.status}</p>
-      <p>Progress: {goal.progress}</p>
-      <button onClick={handleDelete}>Delete goal</button>
-      <button onClick={() => navigate(`/goals/${goal._id}/edit`)}>Edit</button>
+      <p>Status: {status}</p>
+      <p>Progress: {progress}%</p>
 
             {goal.tracking ? (
 
@@ -113,6 +139,8 @@ function GoalDetailsPage() {
                     </label>
                 </div>
             )}
+            <button onClick={handleDelete}>Delete goal</button>
+      <button onClick={() => navigate(`/goals/${goal._id}/edit`)}>Edit</button>
         </div>
     )
 }
