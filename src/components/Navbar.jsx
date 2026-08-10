@@ -10,6 +10,8 @@ function Navbar() {
       (<>
       <button onClick={logout}>Sign Out</button>
       <Link to='/goals'>goals</Link>
+      <Link to='/domains'>domains</Link>
+
       </>) : 
       (<>
         <Link to='/sign-up'>Sign Up</Link>

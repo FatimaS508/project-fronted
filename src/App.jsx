@@ -12,6 +12,12 @@ import GoalDetailsPage from "./pages/goals/GoalDetailsPage";
 import CreateGoalPage from "./pages/goals/CreateGoalPage";
 import EditGoalPage from "./pages/goals/EditGoalPage";
 
+//domains pages
+import DomainList from "./pages/Domains/DomainList";
+import DomainDetails from "./pages/Domains/DomainDetails";
+import CreateDomain from "./pages/Domains/CreateDomain";
+import EditDomain from "./pages/Domains/EditDomain";
+
 
 import { useEffect } from "react";
 import { getCurrentUser, logout } from "./services/authService";
@@ -31,6 +37,14 @@ function App() {
         <Route path="/goals/create" element={<ProtectedRoute><CreateGoalPage/></ProtectedRoute>}></Route>
         <Route path="/goals/:id" element={<ProtectedRoute><GoalDetailsPage/> </ProtectedRoute>}></Route>
         <Route path="/goals/:id/edit" element={<ProtectedRoute><EditGoalPage/> </ProtectedRoute>}></Route>
+
+        <Route path="/domains" element={<ProtectedRoute> <DomainList/> </ProtectedRoute>}></Route>
+        <Route path="/domains/create" element={<ProtectedRoute> <CreateDomain/> </ProtectedRoute>}></Route>
+        <Route path="/domains/:id" element={<ProtectedRoute> <DomainDetails/> </ProtectedRoute>}></Route>
+        <Route path="/domains/:id/edit" element={<ProtectedRoute><EditDomain/> </ProtectedRoute>}></Route>
+
+ 
+
       </Routes>
     </div>
   );
