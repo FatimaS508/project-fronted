@@ -4,8 +4,13 @@ import { Link } from "react-router"
 
 
 function DomainList() {
+    
 
 const [ domains, setDomains ] = useState([])
+const [search, setSearch] = useState('');
+const filteredDomains = domains.filter(d =>
+  d.domainName?.toLowerCase().includes(search.toLowerCase())
+);
 
   async function loadDomains(){
     try{
@@ -16,23 +21,30 @@ const [ domains, setDomains ] = useState([])
     }
   }
 
+
   useEffect(()=>{
     loadDomains()
   },[])
   
   
   return (
-    <div>
-      <h1>All Domains</h1>
-      {domains.map((oneDomain)=>
+  <div>
+    <input
+      type="text"
+      placeholder="Search domains"
+      value={search}
+      onChange={e => setSearch(e.target.value)}
+    />
+
+    <h1>All Domains</h1>
+    {filteredDomains.map(oneDomain => (
       <div key={oneDomain._id}>
         <h2>{oneDomain.domainName}</h2>
         <p>{oneDomain.icon}</p>
         <Link to={`/domains/${oneDomain._id}`}>See Details</Link>
       </div>
-      )}
-    </div>
-  )
-}
+    ))}
+  </div>
+)}
 
 export default DomainList
