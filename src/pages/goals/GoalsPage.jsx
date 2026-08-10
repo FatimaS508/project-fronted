@@ -41,8 +41,21 @@ function GoalsPage() {
                <h3>goal {index+1}: {one.title}</h3>
                <p>status: {one.status}</p>
                <p> progress: {one.progress}</p>
-               <p>Current achievement: {one.tracking?.currentAchievement}</p>
-               <p>target achievement: {one.tracking?.targetAchievement}</p>
+
+
+                {one.tracking?.currentAchievement != null &&
+                    one.tracking?.targetAchievement != null && (
+                        <>
+                            <p>
+                                Current achievement: {one.tracking.currentAchievement}
+                            </p>
+
+                            <p>
+                                Target achievement: {one.tracking.targetAchievement}
+                            </p>
+                        </>
+                    )}
+
                <Link to={`/goals/${one._id}`}>Go to goal details</Link>
             </div>)
         }

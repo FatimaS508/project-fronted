@@ -31,35 +31,35 @@ function GoalDetailsPage() {
         LoadGoal()
     },[])
 
-    const progress = goal ? Math.min((goal.tracking.currentAchievement / goal.tracking.targetAchievement) * 100,
-        100) : 0 //otherwhise 0% 
+    const isMeasurable =
+    goal?.tracking?.unit &&
+    goal?.tracking?.targetAchievement > 0; //1
 
-    let status = "";
+    let status;
+    let progress;
     let completed = false;
 
-    if (goal?.tracking) {
-        if (goal.tracking.currentAchievement === 0) {
+    if (isMeasurable) {
+        const current = goal.tracking.currentAchievement || 0;
+        const target = goal.tracking.targetAchievement;
+
+        progress = Math.min((current / target) * 100, 100);
+
+        if (current === 0) {
             status = "Not Started";
-        } else if (goal.tracking.currentAchievement >= goal.tracking.targetAchievement) {
+        } else if (current >= target) {
             status = "Completed";
         } else {
             status = "In Progress";
         }
 
-        completed = goal.tracking.currentAchievement >= goal.tracking.targetAchievement;
+
+        completed = current >= target;
+    } else {
+        status = goal?.status || "Not Started";
+        progress = goal?.progress || 0;
     }
 
-
-    useEffect(() => {
-  if (!goal?.tracking) return;
-
-
-  updateGoal(id, {
-    status,progress,    
-    tracking: {
-      ...goal.tracking, completed }
-  });
-}, [goal?.tracking?.currentAchievement]);
 
 
     async function handleDelete(){
@@ -71,29 +71,92 @@ function GoalDetailsPage() {
       //const [count, setCount]=useState(0)
     async function handleIncrease() {
         console.log('increase clicked')
-                const chnangedGoal = await updateGoal(id, {tracking:{...goal.tracking,currentAchievement:goal.tracking.currentAchievement+1}})
-        console.log(goal)
-        setGoal({
-            ...goal, //this dots takes all the objects in goal
-            
-           tracking:{...goal.tracking, currentAchievement: (goal.tracking.currentAchievement || 0) + 1}
-            
-        })
+                const newCurrent = goal.tracking.currentAchievement + 1;
+
+    const progress = (newCurrent / goal.tracking.targetAchievement) * 100;
+
+    const status =
+        newCurrent >= goal.tracking.targetAchievement
+            ? "Completed"
+            : "In Progress";
+
+    await updateGoal(id, {
+        tracking: {
+            ...goal.tracking,
+            currentAchievement: newCurrent
+        },
+        progress,
+        status
+    });
+
+    setGoal({
+        ...goal,
+        tracking: {
+            ...goal.tracking,
+            currentAchievement: newCurrent
+        },
+        progress,
+        status
+    });
     }
     async function handleDecrease() {
         console.log('decrease checked')
-        const chnangedGoal = await updateGoal(id, {tracking:{...goal.tracking,currentAchievement:goal.tracking.currentAchievement-1}})
-        console.log(goal)
-        setGoal({
-            ...goal, //this dots takes all the objects in goal
-            
-           tracking:{...goal.tracking, currentAchievement: (goal.tracking.currentAchievement || 0) - 1}
-            
-        })}
+        const newCurrent = Math.max(
+        0,
+        goal.tracking.currentAchievement - 1
+    );
+
+    const progress =
+        (newCurrent / goal.tracking.targetAchievement) * 100;
+
+    const status =
+        newCurrent >= goal.tracking.targetAchievement
+            ? "Completed"
+            : newCurrent > 0
+                ? "In Progress"
+                : "Not Started";
+
+    await updateGoal(id, {
+        tracking: {
+            ...goal.tracking,
+            currentAchievement: newCurrent
+        },
+        progress,
+        status
+    });
+
+    setGoal({
+        ...goal,
+        tracking: {
+            ...goal.tracking,
+            currentAchievement: newCurrent
+        },
+        progress,
+        status
+    });}
     
-    async function handleComplete(){
+    async function handleComplete() {
         console.log('complete checked')
-        const changedGoal= await updateGoal(id, )
+        try {
+            const completed = event.target.checked;
+
+            const status = completed ? "Completed" : "Not Started";
+            const progress = completed ? 100 : 0;
+
+            await updateGoal(id, {
+                status,
+                progress
+            });
+
+            setGoal({
+                ...goal,
+                status,
+                progress
+            });
+
+        } catch (err) {
+            console.log(err);
+        }
     }
 
       if (!goal) return <p>Loading...</p>
@@ -108,15 +171,15 @@ function GoalDetailsPage() {
       <p>Status: {status}</p>
       <p>Progress: {progress}%</p>
 
-            {goal.tracking ? (
+            {isMeasurable ? ( //2
 
                 <div>
                     <p>
-                        Target: {goal.tracking.targetAchievement} {goal.unit}
+                        Target: {goal.tracking.targetAchievement} {goal.tracking.unit}
                     </p>
 
                     <p>
-                        Current achievement: {goal.tracking.currentAchievement || 0} {goal.unit}
+                        Current achievement: {goal.tracking.currentAchievement || 0} {goal.tracking.unit}
                     </p>
 
                     <button onClick={handleDecrease} disabled={goal.tracking.currentAchievement <= 0}>−</button> 
@@ -132,7 +195,7 @@ function GoalDetailsPage() {
                     <label>
                         <input
                             type="checkbox"
-                            checked={goal.status === "completed"}
+                            checked={goal.status === "Completed"}
                             onChange={handleComplete}
                         />
                         Mark as completed
