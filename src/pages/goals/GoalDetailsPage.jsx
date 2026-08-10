@@ -7,19 +7,19 @@ import { useParams, useNavigate, Link } from "react-router";
 
 function GoalDetailsPage() {
 
-    const [goal, setGoal]= useState(null)
+    const [goal, setGoal] = useState(null)
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     const { id } = useParams();
     const navigate = useNavigate();
 
-    useEffect(()=>{
-        async function LoadGoal(){
-            try{
-                setLoading(true);
-                setError(false);
-                const response= await getOneGoal(id)
+    useEffect(() => {
+        async function LoadGoal() {
+            try {
+                setLoading(true)
+                setError(null)
+                const response = await getOneGoal(id)
                 console.log(response)
                 setGoal(response)
             } catch (err) {
@@ -29,11 +29,11 @@ function GoalDetailsPage() {
             }
         }
         LoadGoal()
-    },[])
+    }, [])
 
     const isMeasurable =
-    goal?.tracking?.unit &&
-    goal?.tracking?.targetAchievement > 0; //1
+        goal?.tracking?.unit &&
+        goal?.tracking?.targetAchievement > 0; 
 
     let status;
     let progress;
@@ -43,7 +43,7 @@ function GoalDetailsPage() {
         const current = goal.tracking.currentAchievement || 0;
         const target = goal.tracking.targetAchievement;
 
-        progress = Math.min((current / target) * 100, 100);
+        progress = Math.min((current / target) * 100, 100); //we use min to take min and not aboving 100
 
         if (current === 0) {
             status = "Not Started";
@@ -62,80 +62,80 @@ function GoalDetailsPage() {
 
 
 
-    async function handleDelete(){
-        try{
-             await deleteGoal(id)
+    async function handleDelete() {
+        try {
+            await deleteGoal(id)
             navigate("/goals");
-        }catch(err){console.log(err)}
+        } catch (err) { console.log(err) }
     }
-      //const [count, setCount]=useState(0)
     async function handleIncrease() {
         console.log('increase clicked')
-                const newCurrent = goal.tracking.currentAchievement + 1;
+        const newCurrent = goal.tracking.currentAchievement + 1;
 
-    const progress = (newCurrent / goal.tracking.targetAchievement) * 100;
+        const progress = (newCurrent / goal.tracking.targetAchievement) * 100;
 
-    const status =
-        newCurrent >= goal.tracking.targetAchievement
-            ? "Completed"
-            : "In Progress";
+        const status =
+            newCurrent >= goal.tracking.targetAchievement
+                ? "Completed"
+                : "In Progress";
 
-    await updateGoal(id, {
-        tracking: {
-            ...goal.tracking,
-            currentAchievement: newCurrent
-        },
-        progress,
-        status
-    });
+        await updateGoal(id, {
+            tracking: {
+                ...goal.tracking,
+                currentAchievement: newCurrent
+            },
+            progress,
+            status
+        });
 
-    setGoal({
-        ...goal,
-        tracking: {
-            ...goal.tracking,
-            currentAchievement: newCurrent
-        },
-        progress,
-        status
-    });
+        setGoal({
+            ...goal,
+            tracking: {
+                ...goal.tracking,
+                currentAchievement: newCurrent
+            },
+            progress,
+            status
+        });
     }
     async function handleDecrease() {
         console.log('decrease checked')
         const newCurrent = Math.max(
-        0,
-        goal.tracking.currentAchievement - 1
-    );
+            0,
+            goal.tracking.currentAchievement - 1
+        );
 
-    const progress =
-        (newCurrent / goal.tracking.targetAchievement) * 100;
+        const progress =
+            (newCurrent / goal.tracking.targetAchievement) * 100;
 
-    const status =
-        newCurrent >= goal.tracking.targetAchievement
-            ? "Completed"
-            : newCurrent > 0
-                ? "In Progress"
-                : "Not Started";
+        const status =
+            newCurrent >= goal.tracking.targetAchievement
+                ? "Completed"
+                : newCurrent > 0
+                    ? "In Progress"
+                    : "Not Started";
 
-    await updateGoal(id, {
-        tracking: {
-            ...goal.tracking,
-            currentAchievement: newCurrent
-        },
-        progress,
-        status
-    });
+        await updateGoal(id, {
+            tracking: {
+                ...goal.tracking,
+                currentAchievement: newCurrent
+            },
+            progress,
+            status
+        });
 
-    setGoal({
-        ...goal,
-        tracking: {
-            ...goal.tracking,
-            currentAchievement: newCurrent
-        },
-        progress,
-        status
-    });}
-    
-    async function handleComplete() {
+        setGoal({
+            ...goal,
+            tracking: {
+                ...goal.tracking,
+                currentAchievement: newCurrent
+            },
+            progress,
+            status
+        });
+    }
+
+    async function handleComplete(event) {
         console.log('complete checked')
         try {
             const completed = event.target.checked;
@@ -159,17 +159,17 @@ function GoalDetailsPage() {
         }
     }
 
-      if (!goal) return <p>Loading...</p>
+    if (!goal) return <p>Loading...</p>
 
 
-  return (
-    <div>
-      <h1>Goal details</h1>
-      <button onClick={() => navigate('/goals')}>Back to all goals</button>
-      <p>Goal name: {goal.title}</p>
-      <p>Description: {goal.description}</p>
-      <p>Status: {status}</p>
-      <p>Progress: {progress}%</p>
+    return (
+        <div>
+            <h1>Goal details</h1>
+            <button onClick={() => navigate('/goals')}>Back to all goals</button>
+            <p>Goal name: {goal.title}</p>
+            <p>Description: {goal.description}</p>
+            <p>Status: {status}</p>
+            <p>Progress: {progress}%</p>
 
             {isMeasurable ? ( //2
 
@@ -182,12 +182,12 @@ function GoalDetailsPage() {
                         Current achievement: {goal.tracking.currentAchievement || 0} {goal.tracking.unit}
                     </p>
 
-                    <button onClick={handleDecrease} disabled={goal.tracking.currentAchievement <= 0}>−</button> 
+                    <button onClick={handleDecrease} disabled={goal.tracking.currentAchievement <= 0}>−</button>
                     <button onClick={handleIncrease} disabled={goal.tracking.currentAchievement >= goal.tracking.targetAchievement}>+</button>
 
-                  {goal.tracking.currentAchievement >= goal.tracking.targetAchievement && (
-                      <p>You reached your goal</p>
-                  )}
+                    {goal.tracking.currentAchievement >= goal.tracking.targetAchievement && (
+                        <p>You reached your goal</p>
+                    )}
                 </div>
             ) : (
 
@@ -203,7 +203,7 @@ function GoalDetailsPage() {
                 </div>
             )}
             <button onClick={handleDelete}>Delete goal</button>
-      <button onClick={() => navigate(`/goals/${goal._id}/edit`)}>Edit</button>
+            <button onClick={() => navigate(`/goals/${goal._id}/edit`)}>Edit</button>
         </div>
     )
 }

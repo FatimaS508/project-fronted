@@ -35,32 +35,39 @@ function GoalsPage() {
 
   return (
     <div>
-        <h1>goals page</h1> <Link to={`/goals/create`}>➕ new goal</Link> <button onClick={handleDeleteAllGoals}>Delete All goals</button>
-        {
-            goals.map((one, index)=><div key={one._id}>
-               <h3>goal {index+1}: {one.title}</h3>
-               <p>status: {one.status}</p>
-               <p> progress: {one.progress}</p>
+          <h1>goals page</h1> <Link to={`/goals/create`}>➕ new goal</Link> <button onClick={() => {
+              if (window.confirm("Are you sure you want to delete all goals?")) {
+                  handleDeleteAllGoals();
+              }
+          }}>
+              Delete All Goals
+          </button>
+
+            {
+                goals.map((one, index) => <div key={one._id}>
+                    <h3>goal {index + 1}: {one.title}</h3>
+                    <p>status: {one.status}</p>
+                    <p> progress: {one.progress}%</p>
 
 
-                {one.tracking?.currentAchievement != null &&
-                    one.tracking?.targetAchievement != null && (
-                        <>
-                            <p>
-                                Current achievement: {one.tracking.currentAchievement}
-                            </p>
+                    {one.tracking?.currentAchievement != null &&
+                        one.tracking?.targetAchievement != null && (
+                            <>
+                                <p>
+                                    Current achievement: {one.tracking.currentAchievement}
+                                </p>
 
-                            <p>
-                                Target achievement: {one.tracking.targetAchievement}
-                            </p>
-                        </>
-                    )}
+                                <p>
+                                    Target achievement: {one.tracking.targetAchievement}
+                                </p>
+                            </>
+                        )}
 
-               <Link to={`/goals/${one._id}`}>Go to goal details</Link>
-            </div>)
-        }
-   </div>
-  )
+                    <Link to={`/goals/${one._id}`}>Go to goal details</Link>
+                </div>)
+            }
+        </div>
+    )
 }
 
 export default GoalsPage
