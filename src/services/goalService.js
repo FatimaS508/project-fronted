@@ -26,7 +26,12 @@ async function deleteGoal(id){
     return response.data
 }
 
+async function deleteAll(){
+    const response = await api.delete('/goals')
+    return response.data
+}
 
 
 
-export{getAllGoals, getOneGoal, createGoal, updateGoal, deleteGoal}
+
+export{getAllGoals, getOneGoal, createGoal, updateGoal, deleteGoal, deleteAll}
