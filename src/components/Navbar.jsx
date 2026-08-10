@@ -9,6 +9,7 @@ function Navbar() {
       ? 
       (<>
       <button onClick={logout}>Sign Out</button>
+      <Link to='/dashboard'>dashboard</Link>
       <Link to='/goals'>goals</Link>
       <Link to='/domains'>domains</Link>
 

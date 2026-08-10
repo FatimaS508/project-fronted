@@ -17,8 +17,8 @@ function GoalDetailsPage() {
     useEffect(() => {
         async function LoadGoal() {
             try {
-                setLoading(true);
-                setError(false);
+                setLoading(true)
+                setError(null)
                 const response = await getOneGoal(id)
                 console.log(response)
                 setGoal(response)
@@ -33,7 +33,7 @@ function GoalDetailsPage() {
 
     const isMeasurable =
         goal?.tracking?.unit &&
-        goal?.tracking?.targetAchievement > 0; /
+        goal?.tracking?.targetAchievement > 0; 
 
     let status;
     let progress;
@@ -43,7 +43,7 @@ function GoalDetailsPage() {
         const current = goal.tracking.currentAchievement || 0;
         const target = goal.tracking.targetAchievement;
 
-        progress = Math.min((current / target) * 100, 100);
+        progress = Math.min((current / target) * 100, 100); //we use min to take min and not aboving 100
 
         if (current === 0) {
             status = "Not Started";
@@ -135,7 +135,7 @@ function GoalDetailsPage() {
         });
     }
 
-    async function handleComplete() {
+    async function handleComplete(event) {
         console.log('complete checked')
         try {
             const completed = event.target.checked;
