@@ -61,3 +61,12 @@ nav a{
     font-size: 36px;
     font-weight: bold;
 }
+
+
+.hide{
+    display: none;
+}
+
+.show{
+    display: block;
+}

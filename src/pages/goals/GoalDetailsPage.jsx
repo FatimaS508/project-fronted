@@ -98,8 +98,7 @@ function GoalDetailsPage() {
             progress,
             status
         });
-        }, 2000);
-        
+        }, 500); 
     }
     async function handleDecrease() {
         setTimeout(async() => {
@@ -136,7 +135,7 @@ function GoalDetailsPage() {
             },
             progress,
             status
-        });}, 2000);
+        });}, 500);
     }
 
     async function handleComplete(event) {
@@ -169,13 +168,15 @@ function GoalDetailsPage() {
     return (
         <div>
             <h1>Goal details</h1>
-            <button onClick={() => navigate('/goals')}>Back to all goals</button>
+            <button className="back" onClick={() => navigate(-1)}>
+                ← Back
+            </button>
             <p>Goal name: {goal.title}</p>
             <p>Description: {goal.description}</p>
             <p>Status: {status}</p>
             <p>Progress: {progress}%</p>
 
-            {isMeasurable ? ( //2
+            {isMeasurable ? ( 
 
                 <div>
                     <p>
