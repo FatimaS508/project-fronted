@@ -7,6 +7,7 @@ import { useAuth } from "../../context/AuthContext";
 
 function DomainDetails() {
 
+  const [goals, setGoals] = useState([])
   const [domain, setDomain] = useState(null);
   
   const { user } = useAuth();
@@ -45,7 +46,8 @@ function DomainDetails() {
   async function loadDomain() {
     try {
       const response = await getDomainById(id);
-      setDomain(response);
+      setDomain(response.domain);
+      setGoals(response.goals);
     } catch (err) {
       console.log(err);
     }
@@ -79,6 +81,15 @@ function DomainDetails() {
         <p>Loading...</p>
       )}
 
+
+      {goals.map(goal => (
+       <div key={goal._id}>
+       <h3>{goal.title}</h3>
+       <p>{goal.description}</p>
+       <p>Progress: {goal.progress}%</p>
+       </div>
+      ))}
+
       <form onSubmit={handleSubmit}>
         <label htmlFor='title'> Name of the goal: </label>
         <input type='text' name='title' id='title' onChange={handleChange} value={formData.title}/>
@@ -94,6 +105,19 @@ function DomainDetails() {
   
         <button disabled={sending}>{sending ? 'Creating...' : 'Create goal'}</button>
       </form>
+
+
+      <table>
+        <thead>
+          <th>name</th>
+          <th>progress</th>
+        </thead>
+
+        <tbody>
+          <td>Something</td>
+          <td>10%</td>
+        </tbody>
+      </table>
     </div>
   );
 }
