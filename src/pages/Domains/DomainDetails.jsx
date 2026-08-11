@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { getDomainById, deleteDomain } from "../../services/domainService";
-import { getAllGoals, createGoal, deleteAll } from "../../services/goalService";
+import { getDomainById } from "../../services/domainService";
+import { getAllGoals, createGoal, deleteAll, deleteGoal } from "../../services/goalService";
 import { useParams, useNavigate, Link, useLocation } from "react-router";
 
 import { useAuth } from "../../context/AuthContext";
@@ -60,9 +60,10 @@ function DomainDetails() {
     loadDomain();
   }, []);
 
-  async function handleDelete() {
+  async function handleDelete(id) { //
     try {
-      await deleteDomain(id);
+      await deleteGoal(id);
+      
       navigate("/domains");
     } catch (err) {
       console.log(err);
@@ -98,7 +99,7 @@ function DomainDetails() {
           </button>
         </>
       ) : (
-        <p>Loading...</p>
+        <p>This domain no longer has any goals</p>
       )}
       <button onClick={()=>{ showForm ? setShowForm(false) : setShowForm(true)}}>Create new goal</button>
 
@@ -126,7 +127,7 @@ function DomainDetails() {
         <div key={goal._id}>
           <h3> Goal {index + 1}: {goal.title}</h3>
           <p>Description: {goal.description}</p>
-          <p>Progress: {goal.progress}%</p>
+          <p>Progress: {Math.round(goal.progress)}%</p>
           <p>Status: {goal.status}</p>
 
           {goal.tracking?.currentAchievement != null &&
