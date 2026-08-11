@@ -70,7 +70,8 @@ function GoalDetailsPage() {
     }
     async function handleIncrease() {
         console.log('increase clicked')
-        const newCurrent = goal.tracking.currentAchievement + 1;
+        setTimeout(async() => {
+            const newCurrent = goal.tracking.currentAchievement + 1;
 
         const progress = (newCurrent / goal.tracking.targetAchievement) * 100;
 
@@ -97,8 +98,11 @@ function GoalDetailsPage() {
             progress,
             status
         });
+        }, 2000);
+        
     }
     async function handleDecrease() {
+        setTimeout(async() => {
         console.log('decrease checked')
         const newCurrent = Math.max(
             0,
@@ -132,7 +136,7 @@ function GoalDetailsPage() {
             },
             progress,
             status
-        });
+        });}, 2000);
     }
 
     async function handleComplete(event) {

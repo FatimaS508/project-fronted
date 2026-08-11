@@ -2,13 +2,17 @@ import React from 'react'
 import { Link } from 'react-router'
 import { useEffect, useState } from 'react'
 import { getAllGoals, deleteAll } from '../../services/goalService'
+import { getDomainById } from '../../services/domainService'
 import { useNavigate } from 'react-router'
+import { useParams } from 'react-router'
 
 
 
 function GoalsPage() {
     const [goals, setAllGoals]= useState([])
+    const [domain, setDomain]= useState(null) //th
     const navigate = useNavigate()
+    const { id } = useParams();
 
     async function LoadGoals(){
         try{
@@ -23,6 +27,17 @@ function GoalsPage() {
         LoadGoals()
     }, [])
 
+    async function LoadOneDomain(){
+        try{
+            const response= await getDomainById(id)
+            setDomain(response)
+        }catch(err){console.log(err)}
+    }
+
+    useEffect(()=>{
+        LoadOneDomain()
+    },[id])
+
     async function handleDeleteAllGoals(){
         try{
             const response= await deleteAll()
@@ -35,7 +50,7 @@ function GoalsPage() {
 
   return (
     <div>
-          <h1>goals page</h1> <Link to={`/goals/create`}>➕ new goal</Link> <button onClick={() => {
+          <h1>goals page</h1> <Link to={`/goals/create/${domain?._id}`}>➕ new goal</Link> <button onClick={() => {
               if (window.confirm("Are you sure you want to delete all goals?")) {
                   handleDeleteAllGoals();
               }

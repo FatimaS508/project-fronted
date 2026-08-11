@@ -8,8 +8,12 @@ async function getAllDomains(){
 }
 
 async function getDomainById(id){
-    const response = await api.get(`/domains/${id}`)
-    return response.data
+    try {
+        const response = await api.get(`/domains/${id}`)
+        return response.data
+    } catch (error) {
+        console.log({message: error.response.data.message})
+    }
 }
 
 async function createDomain(body){

@@ -1,13 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState ,useEffect} from 'react'
 import { createGoal } from '../../services/goalService'
 import { useNavigate } from 'react-router'
+import { useParams } from 'react-router';
+import { getDomainById } from '../../services/domainService';
 
 function CreateGoalPage(){
+  const [domain, setDomain] = useState(null);
+  const { id } = useParams();
   const [formData, setFormData]= useState({
     title: "",
     description: "",
     targetAchievement: "",
-    unit: ""
+    unit: "",
+    domain: id
   })
 
   const [error, setError] = useState(false)
@@ -31,6 +36,16 @@ function CreateGoalPage(){
       setSending(false)
      }
   }
+
+  useEffect(() => {
+    async function loadDomain() {
+      const response = await getDomainById(id);
+
+      setDomain(response);
+    }
+
+    loadDomain();
+  }, [id]);
   return (
     <div>
       <button onClick={() => navigate('/goals')}>Back to all goals</button>
@@ -43,6 +58,7 @@ function CreateGoalPage(){
 
         <label htmlFor='description'> Description: </label>
         <input type='text' name='description' id='description' onChange={handleChange} value={formData.description}/>
+
 
         <label htmlFor='targetAchievement'> Target achievement (optional): </label>
         <input type='text' name='targetAchievement' id='targetAchievement' onChange={handleChange} value={formData.targetAchievement} placeholder=' e.g. 10 '/>

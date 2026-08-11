@@ -34,7 +34,7 @@ function App() {
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
 
         <Route path="/goals" element={<ProtectedRoute> <GoalsPage/> </ProtectedRoute>}></Route>
-        <Route path="/goals/create" element={<ProtectedRoute><CreateGoalPage/></ProtectedRoute>}></Route>
+        <Route path="/goals/create/:id" element={<ProtectedRoute><CreateGoalPage/></ProtectedRoute>}></Route>
         <Route path="/goals/:id" element={<ProtectedRoute><GoalDetailsPage/> </ProtectedRoute>}></Route>
         <Route path="/goals/:id/edit" element={<ProtectedRoute><EditGoalPage/> </ProtectedRoute>}></Route>
 

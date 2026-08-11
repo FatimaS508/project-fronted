@@ -48,7 +48,7 @@ function Dashboard() {
         {domains.map((domain) => (
           <div className="progress-card" key={domain._id}>
 
-            <a href="#">
+            <a href="/goals">
               <h3>{domain.domainName}</h3>
             </a>
 

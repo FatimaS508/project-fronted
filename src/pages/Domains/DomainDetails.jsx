@@ -46,6 +46,7 @@ function DomainDetails() {
     try {
       const response = await getDomainById(id);
       setDomain(response);
+      console.log(response)
     } catch (err) {
       console.log(err);
     }
@@ -91,7 +92,10 @@ function DomainDetails() {
 
          <label htmlFor='unit'> Unit (optional): </label>
         <input type='text' name='unit' id='unit' onChange={handleChange} value={formData.unit} placeholder="e.g. books, km, minutes"/>
-  
+        
+        <label htmlFor='domain'>Area: </label>
+        <input type="text" placeholder={domain?.domainName} readOnly/>
+
         <button disabled={sending}>{sending ? 'Creating...' : 'Create goal'}</button>
       </form>
     </div>
