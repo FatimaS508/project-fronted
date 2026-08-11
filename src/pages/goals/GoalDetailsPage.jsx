@@ -11,6 +11,7 @@ function GoalDetailsPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -61,12 +62,13 @@ function GoalDetailsPage() {
     }
 
 
-
-    async function handleDelete() {
+    async function handleDelete(goalId) { //tell omar
         try {
-            await deleteGoal(id)
-            navigate("/goals");
-        } catch (err) { console.log(err) }
+            await deleteGoal(goalId);
+            navigate('/dashboard')
+        } catch (err) {
+            console.log(err);
+        }
     }
     async function handleIncrease() {
         console.log('increase clicked')
@@ -207,7 +209,9 @@ function GoalDetailsPage() {
                     </label>
                 </div>
             )}
-            <button onClick={handleDelete}>Delete goal</button>
+            
+                <button onClick={handleDelete}>Delete</button>
+            
             <button onClick={() => navigate(`/goals/${goal._id}/edit`)}>Edit</button>
         </div>
     )

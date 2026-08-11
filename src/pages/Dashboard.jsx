@@ -112,9 +112,8 @@ if(totalGoals===0){
 
       <div className="life-progress-header">
         <div>
-          <h2>Life Progress</h2>
           <p>Track your progress and become your best self</p>
-          <p><strong>Your overall progress</strong></p>
+          <p><strong>Your overall life progress</strong></p>
         </div>
 
         <div className="life-progress-percentage">
