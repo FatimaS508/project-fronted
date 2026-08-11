@@ -9,6 +9,7 @@ async function getAllDomains(){
 
 async function getDomainById(id){
     const response = await api.get(`/domains/${id}`)
+    console.log(`response`, response.data)
     return response.data
 }
 
