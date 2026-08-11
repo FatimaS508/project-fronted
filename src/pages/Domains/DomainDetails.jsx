@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getDomainById, deleteDomain } from "../../services/domainService";
-import { getAllGoals, createGoal } from "../../services/goalService";
+import { getAllGoals, createGoal, deleteAll } from "../../services/goalService";
 import { useParams, useNavigate, Link, useLocation } from "react-router";
 
 import { useAuth } from "../../context/AuthContext";
@@ -10,6 +10,7 @@ function DomainDetails() {
   const [goals, setGoals] = useState([])
   const [domain, setDomain] = useState(null);
   const [showForm, setShowForm] = useState(false)
+  //const [loading, setLoading] = useState(true); //this
 
   const { user } = useAuth();
 
@@ -67,6 +68,16 @@ function DomainDetails() {
       console.log(err);
     }
   }
+
+  async function handleDeleteAllGoals(){
+        try{
+            const response= await deleteAll()
+            setAllGoals([])
+
+        }catch(err){
+            console.log(err)
+        }
+    }
 
   return (
     <div>
