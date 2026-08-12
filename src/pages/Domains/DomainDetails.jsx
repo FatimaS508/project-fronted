@@ -82,7 +82,7 @@ function DomainDetails() {
     }
 
   return (
-    <div>
+    <div className="domain-details-page">
       <button className="back" onClick={() => navigate(-1)}>
                 ← Back
        </button>
