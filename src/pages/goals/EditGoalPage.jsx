@@ -57,12 +57,16 @@ function EditGoalPage() {
 
 
   return (
-    <div>
-      <button onClick={() => navigate('/goals')}>Back to all goals</button>
+    <div className="edit-goal-page">
+    <button className="back" onClick={() => navigate(-1)}>
+    ← Back
+    </button>
+      <form onSubmit={handleSubmit}>
+
       <h1>update goal</h1>
+
       <p className="error">{error}</p>
 
-      <form onSubmit={handleSubmit}>
         <label htmlFor='title'> Name of the goal: </label>
         <input type='text' name='title' id='title' onChange={handleChange} value={formData.title}/>
 

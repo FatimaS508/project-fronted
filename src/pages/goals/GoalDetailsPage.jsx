@@ -169,7 +169,7 @@ function GoalDetailsPage() {
 
 
     return (
-        <div>
+        <div className="goal-details-page">
             <h1>Goal details</h1>
             <button className="back" onClick={() => navigate(-1)}>
                 ← Back

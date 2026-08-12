@@ -127,29 +127,42 @@ function DomainDetails() {
       </form>
 
 
-      {goals && goals.map((goal, index) => (
-        <div key={goal._id}>
-          <h3> Goal {index + 1}: {goal.title}</h3>
-          <p>Description: {goal.description}</p>
-          <p>Progress: {Math.round(goal.progress)}%</p>
-          <p>Status: {goal.status}</p>
-
-          {goal.tracking?.currentAchievement != null &&
-            goal.tracking?.targetAchievement != null && (
-              <>
-                <p>
-                  Current achievement: {goal.tracking.currentAchievement}
-                </p>
-
-                <p>
-                  Target achievement: {goal.tracking.targetAchievement}
-                </p>
-              </>
-            )}
-            <Link to={`/goals/${goal._id}`}>Go to goal details</Link>
-
+      {goals && goals.length > 0 ? (
+        <div className="table-container">
+          <table className="goals-table">
+            <thead>
+              <tr>
+                <th>Goal Name</th>
+                <th>Description</th>
+                <th>Progress</th>
+                <th>Status</th>
+                <th>Achievement</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {goals.map((goal) => (
+                <tr key={goal._id}>
+                  <td className="goal-title-cell">{goal.title}</td>
+                  <td>{goal.description}</td>
+                  <td className="progress-cell">{Math.round(goal.progress)}%</td>
+                  <td><span className="status-badge">{goal.status}</span></td>
+                  <td>
+                    {goal.tracking?.currentAchievement != null && goal.tracking?.targetAchievement != null 
+                      ? `${goal.tracking.currentAchievement} / ${goal.tracking.targetAchievement}` 
+                      : "-"}
+                  </td>
+                  <td>
+                    <Link className="link-btn" to={`/goals/${goal._id}`}>Details</Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-      ))}
+      ) : (
+         <p className="empty-goals">No goals yet. Create your first goal!</p>
+      )}
 
       
 
