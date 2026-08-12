@@ -40,12 +40,14 @@ const SignInForm = ({}) => {
   };
 
   return (
-    <main>
-      <h1>Sign In</h1>
-      <p className='error'>{error}</p>
+    <main className="auth-page">
       <form autoComplete='off' onSubmit={handleSubmit}>
+        
+        <h1>Sign In</h1>
+        {error && <p className='error'>{error}</p>}
+        
         <div>
-          <label htmlFor='email'>Username:</label>
+          <label htmlFor='username'>Username:</label>
           <input
             type='text'
             autoComplete='off'

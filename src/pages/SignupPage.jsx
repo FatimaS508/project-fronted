@@ -38,10 +38,11 @@ function Signup() {
   };
 
   return (
-    <main>
+    <main  className="auth-page">
+      <form onSubmit={handleSubmit}>
+
       <h1>Sign Up</h1>
       <p className="error">{error}</p>
-      <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="username">Username:</label>
           <input

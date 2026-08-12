@@ -107,7 +107,7 @@ if(totalGoals===0){
 
 
   return (
-    <div>
+    <div className="dashboard-page">
       <h1>Welcome {user.username}</h1>
 
       <div className="life-progress-header">
@@ -119,12 +119,14 @@ if(totalGoals===0){
         <div className="life-progress-percentage">
          {getOverallProgress()}%
         </div>
+        <div className="life-progress-bar">
+        <div className="life-progress-fill" style={{ width: `${getOverallProgress()}%` }}></div>
+      </div>
+      
         <div class='feedback'><p>{getOverallFeedback(getOverallProgress())}</p></div>
       </div>
 
-      <div className="life-progress-bar">
-        <div className="life-progress-fill"></div>
-      </div>
+      
 
       <h1>Your Glow-Up Areas</h1>
       <p>Small steps toward a better you.</p>
@@ -143,7 +145,7 @@ if(totalGoals===0){
 
               <div className="progress-bar">
                 <div
-                  className="progress-fill"
+                  className="progress-fill" style={{ width: `${progress}%` }}
                 ></div>
               </div>
 
