@@ -10,7 +10,7 @@ import { useParams } from 'react-router'
 
 function GoalsPage() {
     const [goals, setAllGoals]= useState([])
-    const [domain, setDomain]= useState(null) //th
+    const [domain, setDomain]= useState(null) 
     const navigate = useNavigate()
     const { id } = useParams();
 

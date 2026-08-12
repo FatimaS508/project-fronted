@@ -5,6 +5,7 @@ import { useParams, useNavigate, Link } from "react-router";
 
 
 
+
 function GoalDetailsPage() {
 
     const [goal, setGoal] = useState(null)
@@ -29,7 +30,7 @@ function GoalDetailsPage() {
         }
     }
     useEffect(() => {
-
+        document.title = 'goal details'
         LoadGoal()
     }, [])
 
@@ -45,7 +46,7 @@ function GoalDetailsPage() {
         const current = goal.tracking.currentAchievement || 0;
         const target = goal.tracking.targetAchievement;
 
-        progress = Math.min((current / target) * 100, 100); //we use min to take min and not aboving 100
+        progress = Math.min((current / target) * 100, 100); 
 
         if (current === 0) {
             status = "Not Started";
@@ -178,7 +179,7 @@ function GoalDetailsPage() {
             <p>Goal name: {goal.title}</p>
             <p>Description: {goal.description}</p>
             <p>Status: {status}</p>
-            <p>Progress: {progress}%</p>
+            <p>Progress: {Math.round(progress)}%</p>
 
             {isMeasurable ? (
 
@@ -209,10 +210,19 @@ function GoalDetailsPage() {
                         />
                         Mark as completed
                     </label>
+                        {goal.status === "Completed" && (
+                            <p>You completed the goal</p>
+                        )}
                 </div>
             )}
 
-            <button onClick={handleDelete}>Delete</button>
+            <button onClick={() => { 
+            if (window.confirm("Are you sure you want to delete this goal?")) {
+              handleDelete();
+            }
+          }}>
+            Delete goal
+          </button>
 
             <button onClick={() => navigate(`/goals/${goal._id}/edit`)}>Edit</button>
         </div>
