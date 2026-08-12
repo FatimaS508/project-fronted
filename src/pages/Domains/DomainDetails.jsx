@@ -11,6 +11,7 @@ function DomainDetails() {
   const [domain, setDomain] = useState(null);
   const [showForm, setShowForm] = useState(false)
   //const [loading, setLoading] = useState(true); //this
+  const [allGoals, setAllGoals] =useState([]) //for deleting all goals
 
   const { user } = useAuth();
 
@@ -82,6 +83,9 @@ function DomainDetails() {
 
   return (
     <div>
+      <button className="back" onClick={() => navigate(-1)}>
+                ← Back
+       </button>
       
 
       {domain ? (

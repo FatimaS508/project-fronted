@@ -13,6 +13,7 @@ function GoalDetailsPage() {
 
 
     const { id } = useParams();
+   
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -62,9 +63,9 @@ function GoalDetailsPage() {
     }
 
 
-    async function handleDelete(goalId) { //tell omar
+    async function handleDelete() { 
         try {
-            await deleteGoal(goalId);
+            await deleteGoal(id);
             navigate('/dashboard')
         } catch (err) {
             console.log(err);
