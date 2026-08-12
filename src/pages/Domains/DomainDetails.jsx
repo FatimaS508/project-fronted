@@ -41,6 +41,7 @@ function DomainDetails() {
       console.log(formData)
       const createdGoal = await createGoal(formData)
       setShowForm(false)
+      loadDomain()
       // navigate('/domains')
     } catch (err) {
       setError(err.response.data.message)
