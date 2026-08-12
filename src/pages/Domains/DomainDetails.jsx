@@ -4,14 +4,15 @@ import { getAllGoals, createGoal, deleteAll, deleteGoal } from "../../services/g
 import { useParams, useNavigate, Link, useLocation } from "react-router";
 
 import { useAuth } from "../../context/AuthContext";
+import toast from "react-hot-toast";
 
 function DomainDetails() {
 
   const [goals, setGoals] = useState([])
   const [domain, setDomain] = useState(null);
   const [showForm, setShowForm] = useState(false)
-  //const [loading, setLoading] = useState(true); //this
-  const [allGoals, setAllGoals] =useState([]) //for deleting all goals
+
+  const [allGoals, setAllGoals] =useState([]) 
 
   const { user } = useAuth();
 
@@ -42,9 +43,11 @@ function DomainDetails() {
       const createdGoal = await createGoal(formData)
       setShowForm(false)
       loadDomain()
-      // navigate('/domains')
+      toast.success("New goal created successfully!");
+  
     } catch (err) {
       setError(err.response.data.message)
+      toast.error("Failed to create entity. Please try again.");
     }
   }
 
@@ -59,10 +62,11 @@ function DomainDetails() {
   }
 
   useEffect(() => {
+    document.title = "domain details"
     loadDomain();
   }, []);
 
-  async function handleDelete(id) { //
+  async function handleDelete(id) { 
     try {
       await deleteGoal(id);
       
@@ -95,7 +99,7 @@ function DomainDetails() {
           <p>{domain.description}</p>
           <p>{domain.icon}</p>
 
-          <button onClick={() => { //delete all goals
+          <button onClick={() => { 
             if (window.confirm("Are you sure you want to delete all goals?")) {
               handleDeleteAllGoals();
             }

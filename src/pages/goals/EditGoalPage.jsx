@@ -2,6 +2,7 @@ import React from 'react'
 import {  getOneGoal, updateGoal } from '../../services/goalService'
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
+import toast from 'react-hot-toast';
 
 
 function EditGoalPage() {
@@ -34,6 +35,7 @@ function EditGoalPage() {
   }
 
   useEffect(() => {
+    document.title = 'edit goal'
     loadGoal()
   }, []);
 
@@ -43,11 +45,12 @@ function EditGoalPage() {
       setSending(true)
       const updatedGoal= await updateGoal(id, formData)
       navigate('/goals/'+updatedGoal._id)
+      toast.success('Goal updated successfully!')
 
      }catch(err){
       console.log(err)
-      // setError(err.response.data.message)
       setSending(false)
+      toast.error('failed updating the goal')
      }
   }
 

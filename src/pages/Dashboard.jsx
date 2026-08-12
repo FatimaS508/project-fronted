@@ -12,7 +12,7 @@ function Dashboard() {
     async function allDomains() {
       try {
         const response = await getAllDomains();
-        console.log(response)
+        document.title = 'datshboard'
         setDomains(response);
       } catch (error) {
         console.error(error);
@@ -37,8 +37,8 @@ function Dashboard() {
   },[])
 
   function getDomainProgress(domainName){
-    let count =0 //count goals belong to domain
-    let sum =0 //total progress value
+    let count =0 
+    let sum =0 
 
     for(const goal of goals){
       if(goal.domain?.domainName === domainName) {
